@@ -1,0 +1,86 @@
+﻿@model BreakAway.Models.Contacts.IndexViewModel
+
+@{
+    ViewBag.Title = "Contacts";
+}
+
+
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(ViewBag.message))
+    {
+        <p>@ViewBag.message</p>
+    }
+    <h1>Contacts</h1>
+
+    <div class="container contact-filters">
+        @using (Html.BeginForm("Index", "Contacts", FormMethod.Get))
+        {
+            <p>
+                Find By Title: @Html.TextBox("SearchTitle")
+
+            </p>
+            <p>
+                Find by Firstname: @Html.TextBox("SearchFirstName")
+            </p>
+            <p>
+                Find by Lastname: @Html.TextBox("SearchLastName")
+                <input type="submit" value="Search" />
+            </p>
+
+        }
+        <button>@Html.ActionLink("Reset Filters", "Index", "Contacts")</button>
+        <button>@Html.ActionLink("Add Contact", "Add", "Contacts")</button>
+    </div>
+
+    <div class="container contacts-container">
+        <table>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Firstname
+                </th>
+                <th>
+                    Lastname
+                </th>
+                <th>
+                    Options
+                </th>
+            </tr>
+            @foreach (var contact in Model.Contacts)
+            {
+
+                <tr>
+                    <td>
+                        @contact.Title
+                    </td>
+                    <td>
+                        @contact.FirstName
+                    </td>
+                    <td>
+                        @contact.LastName
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = contact.Id })
+
+                        |@using (Html.BeginForm("Delete", "Contacts", new { id = contact.Id }, FormMethod.Post))
+                        {
+
+                            @Html.AntiForgeryToken()
+                            <input style="margin:15px 0;" value="Delete" type="submit" />
+                        }
+
+                    </td>
+                </tr>
+
+
+            }
+        </table>
+    </div>
+
+</div>
+
+
+

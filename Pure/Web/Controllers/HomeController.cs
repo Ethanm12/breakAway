@@ -27,6 +27,7 @@ namespace BreakAway.Controllers
         public ActionResult Index()
         {
             IndexViewModel viewModel = new IndexViewModel();
+   
 
             return View(viewModel);
         }

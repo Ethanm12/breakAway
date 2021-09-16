@@ -1,0 +1,41 @@
+﻿@model BreakAway.Models.Contacts.EditViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Contact</h2>
+<p>
+    We can Edit your new contact here
+</p>
+
+<button>@Html.ActionLink("Go Back", "Index", "Contacts")</button>
+
+@if (!string.IsNullOrEmpty(ViewBag.message))
+{
+    <p style="font-style:italic">@ViewBag.message</p>
+}
+
+
+@using (Html.BeginForm("Edit", "Contacts", FormMethod.Post))
+{
+    @Html.HiddenFor(p => p.Id);
+    @Html.AntiForgeryToken();
+    <fieldset style="margin:15px 0;">
+        <legend>Customer Information</legend>
+        <div>
+            @Html.LabelFor(p => p.FirstName, labelText: "First name: ")
+            @Html.TextBoxFor(p => p.FirstName)
+        </div>
+        <div>
+            @Html.LabelFor(p => p.LastName, labelText: "Last name: ")
+            @Html.TextBoxFor(p => p.LastName)
+        </div>
+        <div>
+            @Html.LabelFor(p => p.Title, labelText: "Title: ")
+            @Html.TextBoxFor(p => p.Title)
+        </div>
+        <input style="margin:15px 0;" value="Save" type="submit" />
+    </fieldset>
+}
+

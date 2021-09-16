@@ -22,3 +22,33 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+/*Custom Pages*/
+
+.contacts-container {
+    border: 1px solid black;
+    height: 80vh;
+    overflow: scroll;
+}
+
+.contact-filters {
+    margin: 20px 0px;
+}
+
+
+table {
+    width: 100%;
+}
+
+tr {
+    border-bottom: 1px solid black;
+}
+
+th {
+    margin: 10px 5px;
+}
+
+td {
+    margin: 10px 5px;
+}
