@@ -169,6 +169,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\Class1.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Installers\DefaultInstaller.cs" />
     <Compile Include="Models\Contacts\AddViewModel.cs" />
     <Compile Include="Models\Contacts\EditViewModel.cs" />
+    <Compile Include="Models\Contacts\IEditViewModel.cs" />
     <Compile Include="Models\Contacts\IndexViewModel.cs" />
     <Compile Include="Models\Customer\AddViewModel.cs" />
     <Compile Include="Models\Customer\EditViewModel.cs" />
@@ -217,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">

@@ -25,12 +25,12 @@
             </p>
             <p>
                 Find by Lastname: @Html.TextBox("SearchLastName")
-                <input type="submit" value="Search" />
+                <input class="btn " type="submit" value="Search" />
             </p>
 
         }
-        <button>@Html.ActionLink("Reset Filters", "Index", "Contacts")</button>
-        <button>@Html.ActionLink("Add Contact", "Add", "Contacts")</button>
+        <button class="btn btn-default">@Html.ActionLink("Reset Filters", "Index", "Contacts")</button>
+        <button class="btn btn-default">@Html.ActionLink("Add Contact", "Add", "Contacts")</button>
     </div>
 
     <div class="container contacts-container">

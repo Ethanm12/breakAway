@@ -17,21 +17,64 @@
 
 {
     @Html.AntiForgeryToken();
-    <fieldset style="margin:15px 0;">
-        <legend>Customer Information</legend>
-        <div>
-            @Html.LabelFor(p => p.FirstName, labelText: "First name: ")
-            @Html.TextBoxFor(p => p.FirstName)
-        </div>
-        <div>
-            @Html.LabelFor(p => p.LastName, labelText: "Last name: ")
-            @Html.TextBoxFor(p => p.LastName)
-        </div>
-        <div>
-            @Html.LabelFor(p => p.Title, labelText: "Title: ")
-            @Html.TextBoxFor(p => p.Title)
-        </div>
-        <input style="margin:15px 0;" value="Save" type="submit" />
-    </fieldset>
+<fieldset style="margin:15px 0;">
+    <legend>Customer Information</legend>
+    <div>
+        @Html.LabelFor(p => p.FirstName, labelText: "First name: ")
+        @Html.TextBoxFor(p => p.FirstName)
+        @Html.ValidationMessageFor(p => p.FirstName, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.LabelFor(p => p.LastName, labelText: "Last name: ")
+        @Html.TextBoxFor(p => p.LastName)
+        @Html.ValidationMessageFor(p => p.LastName, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.LabelFor(p => p.Title, labelText: "Title: ")
+        @Html.TextBoxFor(p => p.Title)
+        @Html.ValidationMessageFor(p => p.Title, "", new { @class = "text-danger" })
+    </div>
+    <br />
+    <legend>Address</legend>
+
+    <div>
+        @Html.LabelFor(p => p.Addresses[0].Mail.Street1, labelText: "Street 1: ")
+        @Html.TextBoxFor(p => p.Addresses[0].Mail.Street1)
+        @Html.ValidationMessageFor(p => p.Addresses[0].Mail.Street1, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.LabelFor(p => p.Addresses[0].Mail.Street2, labelText: "Street 2: ")
+        @Html.TextBoxFor(p => p.Addresses[0].Mail.Street2)
+        @Html.ValidationMessageFor(p => p.Addresses[0].Mail.Street2, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.LabelFor(p => p.Addresses[0].Mail.City, labelText: "City: ")
+        @Html.TextBoxFor(p => p.Addresses[0].Mail.City)
+        @Html.ValidationMessageFor(p => p.Addresses[0].Mail.City, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.LabelFor(p => p.Addresses[0].Mail.StateProvince, labelText: "State/Province: ")
+        @Html.TextBoxFor(p => p.Addresses[0].Mail.StateProvince)
+        @Html.ValidationMessageFor(p => p.Addresses[0].Mail.StateProvince, "", new { @class = "text-danger" })
+    </div>
+
+
+    <div>
+        @Html.LabelFor(p => p.Addresses[0].PostalCode, labelText: "Postal Code: ")
+        @Html.TextBoxFor(p => p.Addresses[0].PostalCode)
+        @Html.ValidationMessageFor(p => p.Addresses[0].PostalCode, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.LabelFor(p => p.Addresses[0].CountryRegion, labelText: "Country/Region: ")
+        @Html.TextBoxFor(p => p.Addresses[0].CountryRegion)
+        @Html.ValidationMessageFor(p => p.Addresses[0].CountryRegion, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.LabelFor(p => p.Addresses[0].AddressType, labelText: "Address Type: ")
+        @Html.TextBoxFor(p => p.Addresses[0].AddressType)
+        @Html.ValidationMessageFor(p => p.Addresses[0].AddressType, "", new { @class = "text-danger" })
+    </div>
+    <input style="margin:15px 0;" value="Save" type="submit" />
+</fieldset>
 }
 

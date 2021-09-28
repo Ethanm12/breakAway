@@ -4,12 +4,13 @@
     ViewBag.Title = "Edit";
 }
 
+
 <h2>Edit Contact</h2>
 <p>
     We can Edit your new contact here
 </p>
 
-<button>@Html.ActionLink("Go Back", "Index", "Contacts")</button>
+<button class="btn btn-default">@Html.ActionLink("Go Back", "Index", "Contacts")</button> 
 
 @if (!string.IsNullOrEmpty(ViewBag.message))
 {
@@ -18,24 +19,127 @@
 
 
 @using (Html.BeginForm("Edit", "Contacts", FormMethod.Post))
-{
-    @Html.HiddenFor(p => p.Id);
+{ 
+    @*@Html.HiddenFor(p => p.Id);*@
+
     @Html.AntiForgeryToken();
-    <fieldset style="margin:15px 0;">
-        <legend>Customer Information</legend>
+    <fieldset >
+        <legend>Contact Information</legend>
         <div>
             @Html.LabelFor(p => p.FirstName, labelText: "First name: ")
-            @Html.TextBoxFor(p => p.FirstName)
+            @Html.TextBoxFor(p => p.FirstName) 
+            @Html.ValidationMessageFor(p => p.FirstName, "", new { @class = "text-danger" })
         </div>
         <div>
             @Html.LabelFor(p => p.LastName, labelText: "Last name: ")
             @Html.TextBoxFor(p => p.LastName)
+            @Html.ValidationMessageFor(p => p.LastName, "", new { @class = "text-danger" })
         </div>
         <div>
             @Html.LabelFor(p => p.Title, labelText: "Title: ")
             @Html.TextBoxFor(p => p.Title)
+            @Html.ValidationMessageFor(p => p.Title, "", new { @class = "text-danger" })
         </div>
-        <input style="margin:15px 0;" value="Save" type="submit" />
+        <legend>Contact Address</legend> 
+            <div class="container">
+                <div class="row" id="add">
+
+                    @for (var i = 0; i < Model.Addresses.Count(); i++)
+                    {
+                        
+                        <div class="col-md-4" id="address-card">
+                            <div class="address-card" style="padding: 15px; height:350px; border: 1px solid black;">
+                                <input type="hidden" name="Addresses.Index" value="@i" /> 
+                                @Html.HiddenFor(p => p.Addresses[i].Id)
+                                <div>
+                                    @Html.LabelFor(p => p.Addresses[i].Street1, labelText: "Street 1: ")
+                                    @Html.TextBoxFor(p => p.Addresses[i].Street1)
+                                    @Html.ValidationMessageFor(p => p.Addresses[i].Street1, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(p => p.Addresses[i].Street2, labelText: "Street 2: ")
+                                    @Html.TextBoxFor(p => p.Addresses[i].Street2)
+                                    @Html.ValidationMessageFor(p => p.Addresses[i].Street2, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(p => p.Addresses[i].City, labelText: "City: ")
+                                    @Html.TextBoxFor(p => p.Addresses[i].City)
+                                    @Html.ValidationMessageFor(p => p.Addresses[i].City, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(p => p.Addresses[i].StateProvince, labelText: "State/Province: ")
+                                    @Html.TextBoxFor(p => p.Addresses[i].StateProvince)
+                                    @Html.ValidationMessageFor(p => p.Addresses[i].StateProvince, "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div>
+                                    @Html.LabelFor(p => p.Addresses[i].PostalCode, labelText: "Postal Code: ")
+                                    @Html.TextBoxFor(p => p.Addresses[i].PostalCode)
+                                    @Html.ValidationMessageFor(p => p.Addresses[i].PostalCode, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(p => p.Addresses[i].CountryRegion, labelText: "Country/Region: ")
+                                    @Html.TextBoxFor(p => p.Addresses[i].CountryRegion)
+                                    @Html.ValidationMessageFor(p => p.Addresses[i].CountryRegion, "", new { @class = "text-danger" })
+                                </div>
+                                <div>
+                                    @Html.LabelFor(p => p.Addresses[i].AddressType, labelText: "Address Type: ")
+                                    @Html.TextBoxFor(p => p.Addresses[i].AddressType)
+                                    @Html.ValidationMessageFor(p => p.Addresses[i].AddressType, "", new { @class = "text-danger" }) 
+                                </div> 
+                                <p class="btn btn-danger" onclick="removeItem(this.parentNode.parentNode)">Remove</p>
+                            </div>
+                        </div>
+                    }
+
+                      
+                      
+                </div>
+
+
+        </div>
+        <input class="btn" style="margin:15px 0;" value="Save" type="submit" />
     </fieldset>
 }
+    <button class="btn" style="margin: 20px, 0;" id="addAddress">Add Address</button>  
 
+    <script type="text/javascript"> 
+
+        let presentAddresses = document.getElementsByClassName("address-card").length;
+
+  
+        const btn = document.getElementById("addAddress");
+        let btn2 = document.getElementById("remove");
+
+        let listLength = document.getElementsByClassName(".addresses").length - 1;
+  
+        btn.addEventListener("click", () => {
+            presentAddresses += 1;
+            var target = document.getElementById("add");
+            let addressTemplate = `<div class="col-md-4" id="address-card"><div class="address-card" id="container" style="padding: 15px;height:350px; border: 1px solid black;">` +
+                `<input type="hidden" name="Addresses.Index" value="${presentAddresses}" />` +
+                `<div id="${presentAddresses}"><label for="Addresses_${presentAddresses}__Street1">Street 1: </label><input data-val="true" data-val-length="The something" data-val-length-max"50" id="Addresses_${presentAddresses}__Street1" name="Addresses[${presentAddresses}].Street1" type="text" ><span class="field-validation-valid text-danger" data-valmsg-for="Addresses[${presentAddresses}].Street1" data-valmsg-replace="true"></span> </div>` +
+                `<div><label for="Addresses_${presentAddresses}__Street1">Street 2: </label><input data-val="true" data-val-length="The something" data-val-length-max"50" id="Addresses_${presentAddresses}__Street2" name="Addresses[${presentAddresses}].Street1" type="text" ><span class="field-validation-valid text-danger" data-valmsg-for="Addresses[${presentAddresses}].Street2" data-valmsg-replace="true"></span> </div>` +
+                `<div><label for="Addresses_${presentAddresses}__City">City: </label><input data-val="true" data-val-length="The something" data-val-length-max"50" id="Addresses_${presentAddresses}__City" name="Addresses[${presentAddresses}].City" type="text" value="" ><span class="field-validation-valid text-danger" data-valmsg-for="Addresses[${presentAddresses}].City" data-valmsg-replace="true"></span> </div>` +
+                `<div><label for="Addresses_${presentAddresses}__StateProvince">State/Province: </label><input data-val="true" data-val-length="The something" data-val-length-max"50" id="Addresses_${presentAddresses}__StateProvince" name="Addresses[${presentAddresses}].StateProvince" type="text" value="" ><span class="field-validation-valid text-danger" data-valmsg-for="Addresses[${presentAddresses}].StateProvince" data-valmsg-replace="true"></span> </div>` +
+                `<div><label for="Addresses_${presentAddresses}__PostalCode">PostalCode: </label><input data-val="true" data-val-length="The something" data-val-length-max"50" id="Addresses_${presentAddresses}__PostalCode" name="Addresses[${presentAddresses}].PostalCode" type="text" value="" ><span class="field-validation-valid text-danger" data-valmsg-for="Addresses[${presentAddresses}].PostalCode" data-valmsg-replace="true"></span> </div>` +
+                `<div><label for="Addresses_${presentAddresses}__CountryRegion">Country/Region: </label><br /><input data-val="true" data-val-length="The something" data-val-length-max"50" id="Addresses_${presentAddresses}__CountryRegion" name="Addresses[${presentAddresses}].CountryRegion" type="text" value="" ><span class="field-validation-valid text-danger" data-valmsg-for="Addresses[${presentAddresses}].CountryRegion" data-valmsg-replace="true"></span> </div>` +
+                `<div><label for="Addresses_${presentAddresses}__AddressType">AddressType: </label><input data-val="true" data-val-length="The something" data-val-length-max"50" id="Addresses_${presentAddresses}__AddressType" name="Addresses[${presentAddresses}].AddressType" type="text" value="" ><span class="field-validation-valid text-danger" data-valmsg-for="Addresses[${presentAddresses}].AddressType" data-valmsg-replace="true"></span><p class="btn btn-danger" onclick="removeItem(this.parentNode.parentNode)">Remove</p> </div></div></div></div>`;
+
+            const div = document.createElement('div');
+            div.innerHTML = addressTemplate;
+
+            target.appendChild(div);
+             
+        });
+
+
+        function removeItem(node) {
+            node.remove();
+            presentAddresses -= 1;
+        }
+
+    </script>
+ 
+   

@@ -26,6 +26,7 @@ namespace BreakAway.Entities
             Payments = new DbSetTable<Payment>(_context.Payments);
             Reservations = new DbSetTable<Reservation>(_context.Reservations);
             Lodgings = new DbSetTable<Lodging>(_context.Lodgings);
+            Addresses = new DbSetTable<Address>(_context.Addresses);
         }
 
         public ITable<Activity> Activities { get; }
@@ -45,6 +46,7 @@ namespace BreakAway.Entities
         public ITable<Reservation> Reservations { get; }
 
         public ITable<Lodging> Lodgings { get; }
+        public ITable<Address> Addresses { get; }
 
         public void Save()
         {

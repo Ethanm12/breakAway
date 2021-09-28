@@ -15,6 +15,7 @@ namespace BreakAway.Entities
         IDbSet<Lodging> Lodgings { get; }
         IDbSet<Payment> Payments { get; }
         IDbSet<Reservation> Reservations { get; }
+        IDbSet<Address> Addresses { get; }
 
         int SaveChanges();
     }
@@ -37,6 +38,7 @@ namespace BreakAway.Entities
             Lodgings = Set<Lodging>();
             Payments = Set<Payment>();
             Reservations = Set<Reservation>();
+            Addresses = Set<Address>();
         }
 
         public IDbSet<Activity> Activities { get; private set; }
@@ -48,6 +50,7 @@ namespace BreakAway.Entities
         public IDbSet<Lodging> Lodgings { get; private set; }
         public IDbSet<Payment> Payments { get; private set; }
         public IDbSet<Reservation> Reservations { get; private set; }
+        public IDbSet<Address> Addresses { get; private set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -70,7 +73,7 @@ namespace BreakAway.Entities
 
         private void MapAddressMail(ComplexTypeConfiguration<Mail> complexType)
         {
-            complexType.Property(m => m.Street1).HasColumnName("Street1");
+            complexType.Property(m => m.Street1).HasColumnName("Street1").HasMaxLength(50);
 
             complexType.Property(m => m.Street2).HasColumnName("Street2");
 
@@ -173,17 +176,17 @@ namespace BreakAway.Entities
         {
             entity.HasKey(k => k.Id).ToTable("Contact");
 
-            entity.Property(k => k.Id).HasColumnName("ContactID");
+            entity.Property(k => k.Id).HasColumnName("ContactID").IsRequired();
 
-            entity.Property(k => k.FirstName).HasColumnName("FirstName");
+            entity.Property(k => k.FirstName).HasColumnName("FirstName").IsRequired().HasMaxLength(50);
 
-            entity.Property(k => k.LastName).HasColumnName("LastName");
+            entity.Property(k => k.LastName).HasColumnName("LastName").IsRequired().HasMaxLength(50);
 
-            entity.Property(k => k.Title).HasColumnName("Title");
+            entity.Property(k => k.Title).HasColumnName("Title").HasMaxLength(50);
 
-            entity.Property(k => k.AddDate).HasColumnName("AddDate").HasColumnType("DATETIME");
+            entity.Property(k => k.AddDate).HasColumnName("AddDate").HasColumnType("DATETIME").IsRequired();
 
-            entity.Property(k => k.ModifiedDate).HasColumnName("ModifiedDate").HasColumnType("DATETIME");
+            entity.Property(k => k.ModifiedDate).HasColumnName("ModifiedDate").HasColumnType("DATETIME").IsRequired();
 
             entity.Property(k => k.RowVersion).IsRowVersion();
 
@@ -267,7 +270,7 @@ namespace BreakAway.Entities
 
             entity.Property(k => k.ModifiedDate).HasColumnType("DATETIME");
 
-            entity.Property(k => k.RowVersion).HasColumnName("TimeStamp").IsRowVersion();
+            //entity.Property(k => k.RowVersion).HasColumnName("TimeStamp").IsRowVersion();
 
             entity.HasRequired(k => k.Contact).WithMany(c => c.Addresses).HasForeignKey(k => k.ContactId);
         }

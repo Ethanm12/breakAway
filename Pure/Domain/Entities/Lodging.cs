@@ -11,7 +11,7 @@ namespace BreakAway.Entities
 
         public int ContactId { get; set; }
         
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
 
         public virtual Contact Contact { get; set; }
         

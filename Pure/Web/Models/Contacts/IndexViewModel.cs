@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using BreakAway.Entities;
 
 namespace BreakAway.Models.Contacts
 {
-    public class IndexViewModel
+
+    //public interface IIndexViewModal
+
+    public class IndexViewModel 
     {
         public ContactItem[] Contacts { get; set; }
 
@@ -17,6 +17,8 @@ namespace BreakAway.Models.Contacts
         public string Title { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        
+
+        public IList<Address> Addresses { get; set; } 
     }
+
 }
