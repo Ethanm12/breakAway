@@ -4,104 +4,58 @@ using System.Linq;
 using System.Web.Mvc;
 using BreakAway.Entities;
 using BreakAway.Models.Contacts;
+using Web.Abstractions;
+using Web.Services;
 
 namespace BreakAway.Controllers
 {
     public class ContactsController : Controller
     {
         private readonly IRepository _repository;
-        //private readonly IndexViewModel _indexViewModel;
-        private readonly IFilter _filter;
+        //private readonly IndexViewModel _indexViewModel; 
+        private readonly IContactFilter _contactFilter;
+        private readonly IContactService _contactModel;
 
-        public ContactsController(IRepository repository, IFilter filter)
+
+
+        public ContactsController(IRepository repository, IContactFilter contactFilter, IContactService contactModel)
         {
             if (repository == null)
             {
                 throw new ArgumentNullException("repository");
-                throw new ArgumentNullException("filter");
+            }
+            if (contactFilter == null)
+            {
+                throw new ArgumentNullException("contactFilter");
             }
             _repository = repository;
-            _filter = filter;
+            _contactFilter = contactFilter;
+            _contactModel = contactModel;
         }
         // GET: Contacts        
-
-        //public class ContactModel {
-        //    public vo LogMe() {
-
-        //    }
-        //}
-
+ 
         [HttpGet]
-        public ActionResult Index(string message, string searchTitle, string searchFirstName, string searchLastName)
+        public ActionResult Index(string message, IContactFilter something)
         {
+             
+           
+            ViewBag.message = message;
 
-            // Class for logging
-            // Abstract with an interface 
-            if (!string.IsNullOrEmpty(message))
-            {
-                ViewBag.message = message;
-            }
-            var filter = _filter;
 
-            // Class for model 
-            // Absolutely going to have an abstraction. No interface due to this being a model
-            IndexViewModel viewModel = new IndexViewModel
-            {
-                Contacts = (from contact in _repository.Contacts
-                            select new ContactItem
-                            {
-                                Id = contact.Id,
-                                FirstName = contact.FirstName,
-                                LastName = contact.LastName,
-                                Title = contact.Title,
-                                //Addresses = contact.Addresses.Where(s => s.Id == contact.Id),
-                            }).ToArray()
-            };
+            IndexViewModel viewModel = _contactModel.getModel(); 
 
-            // Class for filtering
-            // This will be an abstract with an interfaces
-            if (!string.IsNullOrEmpty(searchTitle))
-            {
 
-                viewModel.Contacts = viewModel.Contacts.Where(s => !(string.IsNullOrEmpty(s.Title))
-                                                                    && s.Title.ToUpper().Contains(searchTitle.ToUpper())).ToArray();
-            }
-            if (!string.IsNullOrEmpty(searchFirstName))
-            {
-                viewModel.Contacts = viewModel.Contacts.Where(s => s.FirstName.ToUpper().Contains(searchFirstName.ToUpper())).ToArray();
-            }
-            if (!string.IsNullOrEmpty(searchLastName))
-            {
-                viewModel.Contacts = viewModel.Contacts.Where(s => s.LastName.ToUpper().Contains(searchLastName.ToUpper())).ToArray();
-            }
 
+            //viewModel.Contacts = _contactFilter.Title(searchTitle, viewModel);
+
+            //viewModel.Contacts = _contactFilter.FirstName(searchFirstName, viewModel);
+            
+            //viewModel.Contacts = _contactFilter.LastName(searchLastName, viewModel);
+ 
             return View(viewModel);
 
         }
 
-        public interface IFilter {
-            void Title(IndexViewModel model);
-            void FirstName(IndexViewModel model);
-            void LastName(IndexViewModel model);
-        }
-
-        public class Filter : IFilter
-        {
-            public void FirstName(IndexViewModel model)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void LastName(IndexViewModel model)
-            {
-                throw new NotImplementedException();
-            }
-
-            public void Title(IndexViewModel model)
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         public ActionResult Edit(int? id, string message)
         {

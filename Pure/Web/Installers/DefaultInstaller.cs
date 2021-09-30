@@ -4,6 +4,8 @@ using BreakAway.Entities;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Web.Abstractions;
+using Web.Services;
 
 namespace BreakAway.Installers
 {
@@ -16,6 +18,10 @@ namespace BreakAway.Installers
                                       .LifestyleTransient());
 
             container.Register(Component.For<IRepository>().ImplementedBy<SqlRepository>().LifeStyle.Transient);
+
+            container.Register(Component.For<IContactFilter>().ImplementedBy<ContactFilter>().LifeStyle.Transient);
+
+            container.Register(Component.For<IContactService>().ImplementedBy<ContactService>().LifeStyle.Transient);
 
             var connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 

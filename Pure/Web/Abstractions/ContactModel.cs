@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Web.Abstractions
 {
-    public class Class1
+    public class ContactModel
     {
     }
 }
