@@ -4,8 +4,6 @@ using BreakAway.Entities;
 namespace BreakAway.Models.Contacts
 {
 
-    //public interface IIndexViewModal
-
     public class IndexViewModel 
     {
         public ContactItem[] Contacts { get; set; }

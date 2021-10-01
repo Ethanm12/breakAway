@@ -4,58 +4,46 @@ using System.Linq;
 using System.Web.Mvc;
 using BreakAway.Entities;
 using BreakAway.Models.Contacts;
-using Web.Abstractions;
+using Web.Models.Contacts;
 using Web.Services;
 
 namespace BreakAway.Controllers
 {
     public class ContactsController : Controller
     {
-        private readonly IRepository _repository;
-        //private readonly IndexViewModel _indexViewModel; 
-        private readonly IContactFilter _contactFilter;
-        private readonly IContactService _contactModel;
-
-
-
-        public ContactsController(IRepository repository, IContactFilter contactFilter, IContactService contactModel)
+        private readonly IRepository _repository; 
+        private readonly IContactService _contactService;
+         
+        public ContactsController(IRepository repository, IContactService contactService)
         {
             if (repository == null)
             {
-                throw new ArgumentNullException("repository");
+                throw new ArgumentException("repository");
             }
-            if (contactFilter == null)
+
+            if (contactService == null)
             {
-                throw new ArgumentNullException("contactFilter");
+                throw new ArgumentException("contactService");
             }
+
             _repository = repository;
-            _contactFilter = contactFilter;
-            _contactModel = contactModel;
-        }
-        // GET: Contacts        
+            _contactService = contactService;
+        } 
  
         [HttpGet]
-        public ActionResult Index(string message, IContactFilter something)
-        {
-             
-           
+        public ActionResult Index(string message, FilterViewModel filterOptions)
+        { 
+
             ViewBag.message = message;
 
-
-            IndexViewModel viewModel = _contactModel.getModel(); 
-
-
-
-            //viewModel.Contacts = _contactFilter.Title(searchTitle, viewModel);
-
-            //viewModel.Contacts = _contactFilter.FirstName(searchFirstName, viewModel);
-            
-            //viewModel.Contacts = _contactFilter.LastName(searchLastName, viewModel);
- 
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                Contacts = _contactService.GetContactItems(filterOptions)
+            };
+      
             return View(viewModel);
 
         }
-
 
         public ActionResult Edit(int? id, string message)
         {
@@ -106,8 +94,7 @@ namespace BreakAway.Controllers
                     ).ToArray();
 
         }
-
-        // POST: /Contacts/Edit/{Id}
+ 
         [ValidateAntiForgeryToken, HttpPost]
         public ActionResult Edit(EditViewModel model)
         {

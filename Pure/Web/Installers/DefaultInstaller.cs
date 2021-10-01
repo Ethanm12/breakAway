@@ -3,8 +3,7 @@ using System.Web.Mvc;
 using BreakAway.Entities;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.Windsor;
-using Web.Abstractions;
+using Castle.Windsor; 
 using Web.Services;
 
 namespace BreakAway.Installers
@@ -19,7 +18,7 @@ namespace BreakAway.Installers
 
             container.Register(Component.For<IRepository>().ImplementedBy<SqlRepository>().LifeStyle.Transient);
 
-            container.Register(Component.For<IContactFilter>().ImplementedBy<ContactFilter>().LifeStyle.Transient);
+            container.Register(Classes.FromThisAssembly().BasedOn<IContactFilter>().WithServiceAllInterfaces().LifestyleSingleton());
 
             container.Register(Component.For<IContactService>().ImplementedBy<ContactService>().LifeStyle.Transient);
 

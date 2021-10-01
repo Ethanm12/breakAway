@@ -17,14 +17,14 @@
         @using (Html.BeginForm("Index", "Contacts", FormMethod.Get))
         {
             <p>
-                Find By Title: @Html.TextBox("SearchTitle")
+                Find by Title: @Html.TextBox("FilterTitle")
 
             </p>
             <p>
-                Find by Firstname: @Html.TextBox("SearchFirstName")
+                Find by Firstname: @Html.TextBox("FilterFirstName")
             </p>
             <p>
-                Find by Lastname: @Html.TextBox("SearchLastName")
+                Find by Lastname: @Html.TextBox("FilterLastName")
                 <input class="btn " type="submit" value="Search" />
             </p>
 
