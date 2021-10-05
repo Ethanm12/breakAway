@@ -13,15 +13,29 @@ namespace Web.Services
 
     public class TitleFilter : IContactFilter
     {
-        public IQueryable<ContactItem> Filter(FilterViewModel filterModel, IQueryable<ContactItem> contacts)
+        public IQueryable<ContactItem> Filter(FilterViewModel filterModel, 
+            IQueryable<ContactItem> contacts)
         {
+            if (filterModel == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (contacts == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             return contacts.Where(s => !(string.IsNullOrEmpty(s.Title))
-                                                                && s.Title.ToUpper().Contains(filterModel.FilterTitle.ToUpper()));
+                        && s.Title.ToUpper().Contains(filterModel.FilterTitle.ToUpper()));
         }
 
         public bool ShouldFilter(FilterViewModel filterModel)
         {
+            if (filterModel == null)
+            {
+                return false;
+            }
+
             if (!string.IsNullOrEmpty(filterModel.FilterTitle))
             {
                 return true;
@@ -32,14 +46,28 @@ namespace Web.Services
     public class FirstNameFilter : IContactFilter
     {
 
-        public IQueryable<ContactItem> Filter(FilterViewModel filterModel, IQueryable<ContactItem> contacts)
+        public IQueryable<ContactItem> Filter(FilterViewModel  filterModel, IQueryable<ContactItem> contacts)
         {
-            return contacts.Where(s => s.FirstName.ToUpper().Contains(filterModel.FilterFirstName.ToUpper()));
+            if (filterModel == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (contacts == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return contacts.Where(s => !(string.IsNullOrEmpty(s.FirstName)) && s.FirstName.ToUpper().Contains(filterModel.FilterFirstName.ToUpper()));
         }
 
         public bool ShouldFilter(FilterViewModel filterModel)
         {
-            if (!string.IsNullOrEmpty(filterModel.FilterFirstName))
+            if (filterModel == null)
+            {
+                return false;
+            }
+
+            if (!string.IsNullOrEmpty(filterModel.FilterFirstName) )
             {
                 return true;
             }
@@ -50,12 +78,26 @@ namespace Web.Services
     {
         public IQueryable<ContactItem> Filter(FilterViewModel filterModel, IQueryable<ContactItem> contacts)
         {
-            return contacts.Where(s => s.LastName.ToUpper().Contains(filterModel.FilterLastName.ToUpper()));
+            if (filterModel == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (contacts == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return contacts.Where(s => !(string.IsNullOrEmpty(s.LastName)) && s.LastName.ToUpper().Contains(filterModel.FilterLastName.ToUpper()));
         }
 
         public bool ShouldFilter(FilterViewModel filterModel)
         {
-            if (!string.IsNullOrEmpty(filterModel.FilterLastName))
+            if (filterModel == null)
+            {
+                return false;
+            }
+
+            if (!string.IsNullOrEmpty(filterModel.FilterLastName) )
             {
                 return true;
             }
