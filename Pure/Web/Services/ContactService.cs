@@ -8,8 +8,7 @@ namespace Web.Services
 {
     public interface IContactService
     {
-        ContactItem[] GetContactItems(FilterViewModel filterOptions);
-        IndexViewModel getModel();
+        ContactItem[] GetContactItems(FilterViewModel filterOptions); 
     }
 
     public class ContactService : IContactService
@@ -19,13 +18,14 @@ namespace Web.Services
 
         public ContactService(IRepository repository, IContactFilter[] contactFilter)
         {
+            // Null Exceptions set intentionally 
             if (repository == null)
             {
-                throw new ArgumentException("repository");
+                throw new ArgumentNullException(nameof(repository));
             }
             if (contactFilter == null)
             {
-                throw new ArgumentException("contactFilter");
+                throw new ArgumentNullException(nameof(contactFilter));
             }
             _repository = repository;
             _contactFilter = contactFilter;
@@ -33,6 +33,15 @@ namespace Web.Services
 
         public ContactItem[] GetContactItems(FilterViewModel filterOptions)
         {
+
+            if (filterOptions == null)
+            {
+                throw new ArgumentNullException(nameof(filterOptions));
+            }
+            if (_repository.Contacts == null)
+            {
+                throw new ArgumentNullException(nameof(filterOptions));
+            }
 
             var contactList = (from contact in _repository.Contacts
                                                  select new ContactItem
@@ -53,25 +62,6 @@ namespace Web.Services
            
             return contactList.ToArray();
         }
-
-        public IndexViewModel getModel()
-        {
-
-            IndexViewModel returnModel = new IndexViewModel
-            {
-                Contacts = (from contact in _repository.Contacts
-                            select new ContactItem
-                            {
-                                Id = contact.Id,
-                                FirstName = contact.FirstName,
-                                LastName = contact.LastName,
-                                Title = contact.Title,
-                            }).ToArray()
-            };
-
-            return returnModel;
-        }
-
     }
 
 }
